@@ -5,10 +5,13 @@ import com.appointmentschedulingapp.staff.dto.StaffDTO;
 import com.appointmentschedulingapp.staff.service.IStaffService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.client.WebClient;
+
 import java.util.List;
 
 @RestController
@@ -82,11 +85,31 @@ public class StaffController {
         return iStaffService.fetchStaffNameByStaffId(staffId);
     }
 
+//    @GetMapping("/fetchAllStaff")
+//    @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')")
+//    public List<StaffDTO> fetchAllStaff(){
+//        return iStaffService.fetchAllStaff();
+//    }
+
+    @Autowired
+    private WebClient.Builder webClientBuilder;
+
     @GetMapping("/fetchAllStaff")
     @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')")
-    public List<StaffDTO> fetchAllStaff(){
-        return iStaffService.fetchAllStaff();
-    }
+    public ResponseEntity<List<StaffDTO>> fetchAllStaff(@RequestHeader("Authorization") String authorizationHeader) {
+        WebClient client = webClientBuilder.baseUrl("https://staff-ms-03792ef7327d.herokuapp.com").build();
+        String uri = "/admin-staff/fetchAllStaff";
 
+        // Make a GET request to the sender microservice with Authorization header
+        List<StaffDTO> staffList = client.get()
+                .uri(uri)
+                .header("Authorization", authorizationHeader)
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<StaffDTO>>() {})
+                .block(); // Blocking to retrieve the response synchronously
+
+        // Return the response received from the sender microservice
+        return ResponseEntity.ok(staffList);
+    }
 }
 
