@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/staff")
+@CrossOrigin(origins = "https://security-ms-59cfc31741b3.herokuapp.com/")
 public class StaffController {
     @Autowired
     private IStaffService iStaffService;
