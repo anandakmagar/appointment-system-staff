@@ -1,0 +1,122 @@
+#server:
+#  port: 8082
+#
+#eureka:
+#  client:
+#    serviceUrl:
+##      defaultZone: http://localhost:8761/eureka/
+#      defaultZone: 'https://eureka-server-ms-113f8fccf842.herokuapp.com/eureka/'
+#    fetch-registry: true
+#    register-with-eureka: true
+#  instance:
+#    hostname: localhost
+#    preferIpAddress: true
+#    appname: staff
+#
+#spring:
+#  application:
+#    name: staff
+#  datasource:
+#    initialization-mode: always
+#    username: admin
+#    password: admin1234
+#    url: jdbc:mysql://database-1.coz3uh2yaw2j.us-east-2.rds.amazonaws.com/appointmentsdb
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+#    generate-ddl: true
+#    properties:
+#      javax.persistence.schema-generation.database.action: update
+#  kafka:
+#    bootstrap-servers: "measured-yeti-6624-us1-kafka.upstash.io:9092"
+#    properties:
+#      security.protocol: SASL_SSL
+#      sasl.mechanism: SCRAM-SHA-256
+#      sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="bWVhc3VyZWQteWV0aS02NjI0JG13TuzeYPCNpNbFHZ-fEuClCyG3XnAXVORHS1k" password="N2IyMzg1YTEtZjAwYy00YjE3LWE5ZGEtMjRlNzYxMzdiY2Iw";
+#
+#    consumer:
+#      group-id: "appointment-scheduling-group"
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      auto-offset-reset: earliest
+#
+#    producer:
+#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+#
+#    admin:
+#      properties:
+#        bootstrap.servers: "measured-yeti-6624-us1-kafka.upstash.io:9092"
+#        sasl.mechanism: SCRAM-SHA-256
+#        security.protocol: SASL_SSL
+#        sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="bWVhc3VyZWQteWV0aS02NjI0JG13TuzeYPCNpNbFHZ-fEuClCyG3XnAXVORHS1k" password="N2IyMzg1YTEtZjAwYy00YjE3LWE5ZGEtMjRlNzYxMzdiY2Iw";
+##  mail:
+##    host: smtp.gmail.com
+##    port: 587
+##    username: gsmtp60@gmail.com
+##    password: ielsuxexelfphgoi
+##    properties:
+##      mail:
+##        smtp:
+##          auth: true
+##          starttls:
+##            enable: true
+
+
+server:
+  port: ${PORT:8080}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: 'https://eureka-server-ms-113f8fccf842.herokuapp.com/eureka/'
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    preferIpAddress: true
+    appname: staff
+    hostname: ${DYNO}
+    nonSecurePortEnabled: true
+    nonSecurePort: ${PORT}
+    leaseRenewalIntervalInSeconds: 10
+    leaseExpirationDurationInSeconds: 30
+
+spring:
+  application:
+    name: staff
+  datasource:
+    initialization-mode: always
+    username: admin
+    password: admin1234
+    url: jdbc:mysql://database-1.coz3uh2yaw2j.us-east-2.rds.amazonaws.com/appointmentsdb
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    generate-ddl: true
+    properties:
+      javax.persistence.schema-generation.database.action: update
+  kafka:
+    bootstrap-servers: "measured-yeti-6624-us1-kafka.upstash.io:9092"
+    properties:
+      security.protocol: SASL_SSL
+      sasl.mechanism: SCRAM-SHA-256
+      sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="bWVhc3VyZWQteWV0aS02NjI0JG13TuzeYPCNpNbFHZ-fEuClCyG3XnAXVORHS1k" password="N2IyMzg1YTEtZjAwYy00YjE3LWE5ZGEtMjRlNzYxMzdiY2Iw";
+
+    consumer:
+      group-id: "appointment-scheduling-group"
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: earliest
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+    admin:
+      properties:
+        bootstrap.servers: "measured-yeti-6624-us1-kafka.upstash.io:9092"
+        sasl.mechanism: SCRAM-SHA-256
+        security.protocol: SASL_SSL
+        sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="bWVhc3VyZWQteWV0aS02NjI0JG13TuzeYPCNpNbFHZ-fEuClCyG3XnAXVORHS1k" password="N2IyMzg1YTEtZjAwYy00YjE3LWE5ZGEtMjRlNzYxMzdiY2Iw";
